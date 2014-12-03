@@ -22,6 +22,14 @@ Mock the service within a beforeEach method using sinon.  Sinon is a mocking fra
     
     }));
 
+Declare globally, and instantiate a deferred object for the getById function, within the beforeEach.
+var getByIdServiceDeferred;
+
+beforeEach(inject(function($q) {
+ 
+      getByIdServiceDeferred = $q.defer();
+
+}));
 
 
 #How to use
