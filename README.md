@@ -28,7 +28,7 @@ Declare globally, and instantiate a deferred object for the getById function, wi
 
       beforeEach(inject(function($q) {
  
-      getByIdServiceDeferred = $q.defer();
+        getByIdServiceDeferred = $q.defer();
 
       }));
 
