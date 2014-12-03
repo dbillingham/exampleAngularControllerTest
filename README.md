@@ -23,21 +23,34 @@ Mock the service within a beforeEach method using sinon.  Sinon is a mocking fra
     }));
 
 Declare globally, and instantiate a deferred object for the getById function, within the beforeEach.
-var getByIdServiceDeferred;
 
-beforeEach(inject(function($q) {
+      var getByIdServiceDeferred;
+
+      beforeEach(inject(function($q) {
  
       getByIdServiceDeferred = $q.defer();
 
-}));
+      }));
 
 
-#How to use
-Instead of:
+Set the return value for the getById function within the mocked service, to return the deferred promise, within the beforeEach.
 
-    var db = new OrmLiteConnectionFactory("connectionString").OpenDbConnection();
+      serviceMock.getById.returns(getByIdServiceDeferred.promise);
+
     
-Do:
+The mock will need to be passed to the controller when it is initialised. Within the ‘it’ block, describe your test and create the controller under test.  
 
-    var db = new DbConnectionAdapter(new OrmLiteConnectionFactory("connectionString").OpenDbConnection());
-    
+      it('should set an error message if the call to retrieve the  data is unsuccessful', function () {
+ 
+        var ctrl = createUnitUnderTest();
+ 
+      });
+
+Get the deferred object and either resolve or reject it, passing an object if necessary.  You will also need to force a digest or use apply. And test the outcome.
+
+      getByIdServiceDeferred.reject({ data: { message: 'failed' } });
+      scope.$root.$digest();
+      expect(ctrl.errorMessage).toBe('failed');
+
+
+It is important to remember to either resolve or reject the promise after the controller has been instantiated.
